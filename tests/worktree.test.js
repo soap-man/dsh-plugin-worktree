@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import test from "node:test";
 
 import {
@@ -195,6 +195,7 @@ test("removeGitWorktree removes a worktree and its branch", async (t) => {
   assert.equal(result.branchDeleteRefused, false);
   assert.equal(await branchExists("dsh/feat/cleanup", repo), false);
   await assert.rejects(() => stat(created.path), /ENOENT/);
+  await assert.rejects(() => stat(dirname(created.path)), /ENOENT/);
 });
 
 test("removeGitWorktree can keep the branch", async (t) => {

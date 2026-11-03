@@ -4,4 +4,4 @@
 # in their profile or home cordis.patch.yml.
 - insert:
     - id: worktree
-      name: dsh-plugin-worktree
+      name: "@soap/dsh-plugin-worktree"

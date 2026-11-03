@@ -1,7 +1,7 @@
 # dsh-plugin-worktree
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![npm version](https://img.shields.io/npm/v/dsh-plugin-worktree)](https://www.npmjs.com/package/dsh-plugin-worktree)
+[![npm version](https://img.shields.io/npm/v/@soap%2Fdsh-plugin-worktree)](https://www.npmjs.com/package/@soap/dsh-plugin-worktree)
 
 A [dsh](https://github.com/deepseek-ai/deepseek-harness) plugin that brings
 Claude Code-style git worktree support to the dsh web UI. Create, switch, and
@@ -15,20 +15,25 @@ delete worktree-backed sessions without leaving the browser.
 
 ## Requirements
 
-- A working [dsh](https://github.com/deepseek-ai/deepseek-harness) installation
-- A `web` profile (`dsh web`)
+- dsh `0.2.0-rc.1` or newer (`0.2.x`); works with both the desktop app and a
+  `web` profile
 - `git` available on the host machine
-- Node.js 18 or newer
+- Node.js 22.19 or newer (the version required by dsh `0.2.x`)
 
 ## Install
 
 ### From npm
 
 ```bash
-dsh plugin --profile web add dsh-plugin-worktree
+# Desktop app
+dsh plugin --profile desktop add @soap/dsh-plugin-worktree
+
+# Web profile
+dsh plugin --profile web add @soap/dsh-plugin-worktree
 ```
 
-Restart `dsh web`. The plugin registers the `worktree` bundle row automatically.
+Restart dsh (or the desktop app) afterwards. The plugin registers the `worktree`
+bundle row automatically.
 
 ### From GitHub
 
@@ -39,7 +44,7 @@ dsh plugin --profile web add github:limoiie/dsh-plugin-worktree#main
 Pin a released version by replacing `#main` with a tag, for example:
 
 ```bash
-dsh plugin --profile web add github:limoiie/dsh-plugin-worktree#v0.1.0
+dsh plugin --profile web add github:limoiie/dsh-plugin-worktree#v0.2.0
 ```
 
 Git-hosted installs may need pnpm's `allowBuilds` approval for the package's
@@ -48,7 +53,7 @@ Git-hosted installs may need pnpm's `allowBuilds` approval for the package's
 ### Update
 
 ```bash
-dsh plugin --profile web update dsh-plugin-worktree
+dsh plugin --profile web update @soap/dsh-plugin-worktree
 ```
 
 Restart `dsh web` after updating.
@@ -59,15 +64,16 @@ the latest commit of that branch or tag.
 ### Remove
 
 ```bash
-dsh plugin --profile web remove dsh-plugin-worktree
+dsh plugin --profile desktop remove @soap/dsh-plugin-worktree
+# or: dsh plugin --profile web remove @soap/dsh-plugin-worktree
 ```
 
-Restart `dsh web` after removing. This uninstalls the plugin and removes its
+Restart dsh after removing. This uninstalls the plugin and removes its
 bundle layer from the `web` profile.
 
 ## Quick start
 
-1. Install the plugin and restart `dsh web`.
+1. Install the plugin and restart dsh (desktop app or `dsh web`).
 2. Open a new session.
 3. In the workspace picker, open the **Worktree** chip.
 4. Choose **New worktree…**, enter a name such as `feat/okta-sso`, and confirm.

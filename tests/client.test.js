@@ -53,8 +53,8 @@ before(async () => {
       case "@deepseek-ai/dsh-client-ui-primitives":
         return {
           Button: {},
-          IconFolderClose16: {},
-          IconPlusOutline16: {},
+          IconFolderCloseRegular: {},
+          IconPlusOutlineRegular: {},
           Input: {},
           Menu: {},
           Modal: {},
@@ -68,7 +68,7 @@ before(async () => {
   client = factory(requireStub);
   assert.ok(client.__test, "client bundle should expose __test helpers");
   assert.equal(typeof client.apply, "function");
-  assert.deepEqual(client.inject, ["slots", "workspaces", "connection", "locale"]);
+  assert.deepEqual(client.inject, ["slots", "workspaces", "connection", "remote", "remote.directoryPicker", "locale"]);
 });
 
 test("pathBasename handles separators and trailing slashes", () => {

@@ -14,8 +14,7 @@ half.
     "client": {
       "inject": [
         "@deepseek-ai/dsh-client-connection",
-        "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-runtime"
+        "@deepseek-ai/dsh-client-locale"
       ],
       "platform": "web"
     }
@@ -28,7 +27,7 @@ half.
 ```yaml
 - insert:
     - id: worktree
-      name: dsh-plugin-worktree
+      name: "@soap/dsh-plugin-worktree"
 ```
 
 When a profile lists this package in `dsh.profile.bundles`, dsh applies that
@@ -43,7 +42,8 @@ methods:
   git worktree at `.dsh/worktrees/<name>` with a `dsh/<name>` branch, and
   return `{ path, branch, repoRoot }`.
 - `worktree/remove` — remove a worktree **and** its branch before the workspace
-  registration is deleted.
+  registration is deleted. Empty parent directories under the worktrees root
+  are pruned after removal.
 - `worktree/removeWorktree` — remove a worktree only, keeping its branch.
 - `worktree/branchExists` — check whether a branch already exists.
 
@@ -74,15 +74,25 @@ against it), so all following turns run locally inside the worktree.
 
 ## Client side
 
-`lib/client.js` is a self-contained dsh client bundle. It:
+`lib/client.js` is a self-contained dsh client bundle. It targets the dsh
+`0.2.x` client contracts:
 
+- injects `slots`, `workspaces`, `connection`, `remote`,
+  `remote.directoryPicker`, and `locale`;
 - shadows `conversation.hero.workspace` at priority `-1` and re-creates the
   workspace picker with an inline **Worktree** chip and worktree menu;
+- opens the folder picker through `remote.directoryPicker.pick()` (the
+  `workspaces.pickDirectory()` method was removed in dsh `0.2.x`);
 - renders the worktree creation modal directly from that chip (the sidebar and
   hero directory-flow slots are left untouched, so **Add workspace** keeps its
   original folder picker);
 - decorates the workspace snapshot store so worktree workspaces carry
-  `worktree: true` and a `⑂` badge in their display title;
+  `worktree: true` and the worktree badge in their display title. The title
+  stays a plain string so consumers that interpolate it into accessible labels
+  keep working; the badge glyph is swapped for an icon only in rendered text
+  nodes, never in workspace objects;
+- uses the `0.2.x` icon exports (`IconFolderCloseRegular` /
+  `IconPlusOutlineRegular`) with fallbacks for the older `*16` names;
 - patches the sidebar `WorkspaceBrowser` delete request so worktree workspaces
   show the worktree/branch removal dialog **before** dsh’s own confirm modal
   (non-worktree deletes keep the original confirmation).
