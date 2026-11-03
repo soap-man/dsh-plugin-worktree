@@ -1,0 +1,7 @@
+# dsh-plugin-worktree bundle patch: adds the worktree service as one entry.
+# Users can override `root` (git lookup directory) and `worktreesDir`
+# (absolute, or relative to the repository top-level) by targeting `id: worktree`
+# in their profile or home cordis.patch.yml.
+- insert:
+    - id: worktree
+      name: dsh-plugin-worktree
